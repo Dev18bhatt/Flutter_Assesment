@@ -16,6 +16,7 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+  
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -73,6 +74,7 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email, color: Colors.grey.shade300),
                     border: InputBorder.none,
+                    
                     hintText: 'Enter your email',
                     hintStyle: TextStyle(color: Colors.grey),
                     contentPadding: EdgeInsets.symmetric(vertical: 12.0),

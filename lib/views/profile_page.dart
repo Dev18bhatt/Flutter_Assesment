@@ -83,7 +83,7 @@ class ProfilePage extends GetView<normalController> {
 
           // User Name
           Text(
-            'Wilson Saris',
+            '${controller.username}',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -300,7 +300,6 @@ class ProfilePage extends GetView<normalController> {
                 if (controller.selectedIndex == 4) {
                   Get.to(() => ProfilePage());
                 }
-                
               },
               child: Container(
                 padding: EdgeInsets.all(2), // Add padding if you want a border

@@ -1,13 +1,12 @@
+import 'package:assesment/controller/state_controller.dart';
 import 'package:assesment/views/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class CreateAccountPage extends StatefulWidget {
-  @override
-  _CreateAccountPageState createState() => _CreateAccountPageState();
-}
-
-class _CreateAccountPageState extends State<CreateAccountPage> {
+class CreateAccountPage extends GetView<normalController> {
+  normalController controller = Get.put(normalController());
   bool isChecked = false; // This tracks whether the checkbox is checked
   bool _obscureTextForPassword = true; // Tracks password visibility
   bool _obscureTextForConfirmPassword = true;
@@ -32,7 +31,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: size.height * 0.03),
-              _buildTextField(
+              _buildUserNameTextField(
                 label: 'Full Name',
                 icon: Icons.person,
                 isRequired: true,
@@ -60,9 +59,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   Checkbox(
                     value: isChecked,
                     onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value ?? false;
-                      });
+                      isChecked = value ?? false;
                     },
                   ),
                   Expanded(
@@ -234,6 +231,50 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     );
   }
 
+  Widget _buildUserNameTextField({
+    required String label,
+    required IconData icon,
+    String hintText = '',
+    bool isRequired = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text.rich(
+          TextSpan(
+            text: label,
+            style: TextStyle(fontSize: 16),
+            children: [
+              if (isRequired)
+                TextSpan(
+                  text: ' *',
+                  style: TextStyle(color: Colors.red),
+                ),
+            ],
+          ),
+        ),
+        SizedBox(height: 8.0),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: TextFormField(
+            onChanged: (value) {
+              controller.username = value;
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon, color: Colors.grey.shade300),
+              border: InputBorder.none,
+              hintText: hintText,
+              contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   // Method to build a password field
 
   Widget _buildPasswordField({
@@ -274,9 +315,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  setState(() {
-                    _obscureTextForPassword = !_obscureTextForPassword;
-                  });
+                  _obscureTextForPassword = !_obscureTextForPassword;
                 },
               ),
               border: InputBorder.none,
@@ -328,10 +367,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  setState(() {
-                    _obscureTextForConfirmPassword =
-                        !_obscureTextForConfirmPassword;
-                  });
+                  _obscureTextForConfirmPassword =
+                      !_obscureTextForConfirmPassword;
                 },
               ),
               border: InputBorder.none,
