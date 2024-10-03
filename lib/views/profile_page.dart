@@ -1,21 +1,17 @@
-import 'package:assesment/views/bottom_nav_bar.dart';
+import 'dart:developer';
+
+import 'package:assesment/controller/state_controller.dart';
+import 'package:assesment/views/createPost.dart';
+import 'package:assesment/views/post.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class ProfilePage extends StatefulWidget {
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  @override
+class ProfilePage extends GetView<normalController> {
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
-
     Size size = MediaQuery.sizeOf(context);
+    normalController controller = Get.put(normalController());
 
     // Sample data for the GridView
     final List<String> imageUrls = [
@@ -34,18 +30,38 @@ class _ProfilePageState extends State<ProfilePage> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('Profile'), Icon(Icons.list)],
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Row(
+            children: [
+              Container(
+                // Desired height
+                child: Image.asset(
+                  'assets/images/logo.jpeg',
+                  width: size.width * 0.6, // Chhoti width
+                  height: size.height * 0.2, // Chhoti height
+                ),
+              ),
+              SizedBox(
+                width: size.width * 0.3,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PostPage(), // Navigate to LoginPage
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.list))
+            ],
+          ),
           Container(
-            padding: EdgeInsets.all(2), // Add padding if you want a border
+            // Add padding if you want a border
             decoration: BoxDecoration(
               color: Colors.white, // Border color
               shape: BoxShape.circle,
@@ -246,9 +262,20 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Allows 4+ icons
-        currentIndex: _selectedIndex,
+        currentIndex: controller.selectedIndex,
         onTap: (index) {
-          _selectedIndex = index;
+          controller.selectedIndex = index;
+          if (controller.selectedIndex == 0) {
+            Get.to(() => PostPage());
+          }
+          if (controller.selectedIndex == 2) {
+            Get.to(() => CreatePostPage());
+          }
+          if (controller.selectedIndex == 4) {
+            Get.to(() => ProfilePage());
+          }
+
+          log("${controller.selectedIndex}");
         },
         items: [
           BottomNavigationBarItem(
@@ -268,23 +295,31 @@ class _ProfilePageState extends State<ProfilePage> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Container(
-              padding: EdgeInsets.all(2), // Add padding if you want a border
-              decoration: BoxDecoration(
-                color: Colors.white, // Border color
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1456315138460-858d1089ddba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW1zdGVyZGFtJTIwUGVvcGxlc3xlbnwwfHwwfHx8MA%3D%3D'),
+            icon: GestureDetector(
+              onTap: () {
+                if (controller.selectedIndex == 4) {
+                  Get.to(() => ProfilePage());
+                }
+                
+              },
+              child: Container(
+                padding: EdgeInsets.all(2), // Add padding if you want a border
+                decoration: BoxDecoration(
+                  color: Colors.white, // Border color
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(
+                      'https://images.unsplash.com/photo-1456315138460-858d1089ddba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW1zdGVyZGFtJTIwUGVvcGxlc3xlbnwwfHwwfHx8MA%3D%3D'),
+                ),
               ),
             ),
             label: '',

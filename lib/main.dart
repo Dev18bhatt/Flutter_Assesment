@@ -1,9 +1,6 @@
-import 'package:assesment/views/createPost.dart';
-import 'package:assesment/views/login.dart';
-import 'package:assesment/views/post.dart';
-import 'package:assesment/views/profile_page.dart';
 import 'package:assesment/views/register.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +12,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: PostPage());
+        home: CreateAccountPage());
   }
 }

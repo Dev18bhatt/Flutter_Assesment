@@ -1,4 +1,7 @@
 import 'package:assesment/views/createPost.dart';
+import 'package:assesment/views/post.dart';
+import 'package:assesment/views/register.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class CreateLoginPage extends StatefulWidget {
@@ -15,16 +18,18 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: size.height * 0.16),
+              SizedBox(height: size.height * 0.02),
               Center(
                 child: Column(
                   children: [
+                    Image.asset('assets/images/logo.jpeg'),
                     Text(
                       "Welcome Back!",
                       style:
@@ -144,7 +149,6 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
                   Text("Remember Me", style: TextStyle(fontSize: 16)),
                 ],
               ),
-              SizedBox(height: 20),
 
               // Sign In Button
               Center(
@@ -154,7 +158,7 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CreatePostPage(),
+                          builder: (context) => PostPage(),
                         ),
                       );
                     } else {
@@ -221,18 +225,38 @@ class _CreateLoginPageState extends State<CreateLoginPage> {
 
               // Sign Up
               Center(
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Don't have an account? Sign Up here",
+                child: RichText(
+                  text: TextSpan(
+                    text: "Do not have an account? ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color:
+                          Colors.black, // Default color for non-tappable text
                     ),
+                    children: [
+                      TextSpan(
+                        text: "Sign Up Or Register",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange, // Orange color for "Login"
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Add your navigation or any action here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CreateAccountPage(), // Navigate to LoginPage
+                              ),
+                            );
+                          },
+                      ),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: size.height * 0.1),
             ],
           ),
         ),

@@ -1,28 +1,14 @@
 import 'dart:developer';
 
+import 'package:assesment/controller/state_controller.dart';
 import 'package:assesment/views/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class BottomNavBarExample extends StatefulWidget {
-  @override
-  _BottomNavBarExampleState createState() => _BottomNavBarExampleState();
-}
-
-class _BottomNavBarExampleState extends State<BottomNavBarExample> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      log("${_selectedIndex}");
-      if (index == 4) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-        );
-      }
-    });
-  }
+class BottomNavBarExample extends GetView<normalController> {
+  normalController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +19,8 @@ class _BottomNavBarExampleState extends State<BottomNavBarExample> {
           ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Allows 4+ icons
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: controller.selectedIndex,
+        onTap: (index) {},
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
